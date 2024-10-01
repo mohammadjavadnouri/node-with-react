@@ -12,8 +12,6 @@ mongoose.connect(keys.mongoDBConnectionString);
 
 const app = express();
 
-console.log("test console to commit");
-
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,

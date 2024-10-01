@@ -8,11 +8,6 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const keys = require("./config/keys");
 
-console.log("checkkkkkk node env : ", process.env.NODE_ENV === "production");
-console.log(" node env : ", process.env.NODE_ENV);
-console.log(" node env length: ", process.env.NODE_ENV.length);
-console.log(" node env type: ", typeof process.env.NODE_ENV);
-
 mongoose.connect(keys.mongoDBConnectionString);
 
 const app = express();

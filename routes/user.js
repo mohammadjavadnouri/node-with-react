@@ -7,7 +7,7 @@ router.get("/current", (req, res) => {
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.send(req.user);
+  res.redirect("/landing");
 });
 
 module.exports = router;

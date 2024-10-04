@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
+const cors = require("cors");
 require("./models/user");
 require("./services/passport");
 const authRoutes = require("./routes/auth");
@@ -11,6 +12,13 @@ const keys = require("./config/keys");
 mongoose.connect(keys.mongoDBConnectionString);
 
 const app = express();
+
+const corsOptions = {
+  credentials: true,
+  origin: "http://localhost:3000",
+};
+
+app.use(cors(corsOptions));
 
 app.use(
   cookieSession({
@@ -23,6 +31,14 @@ app.use(passport.session());
 
 app.use("/auth", authRoutes);
 app.use("/api/user", userRoutes);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirnamem, "client", "build", "index.html"));
+  });
+}
 
 const PORT = process.env.PORT || 5000;
 

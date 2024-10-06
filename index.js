@@ -2,16 +2,20 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 require("./models/user");
 require("./services/passport");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const billingRoutes = require("./routes/billing");
 const keys = require("./config/keys");
 
 mongoose.connect(keys.mongoDBConnectionString);
 
 const app = express();
+
+app.use(bodyParser.json());
 
 const corsOptions = {
   credentials: true,
@@ -31,6 +35,7 @@ app.use(passport.session());
 
 app.use("/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/stripe", billingRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));

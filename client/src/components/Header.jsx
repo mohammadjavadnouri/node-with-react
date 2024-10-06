@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col, Typography, Button } from "antd";
+import { GoogleOutlined } from "@ant-design/icons";
+
+//components
+import Payment from "./Payment";
 
 //apis
 import { getCurrentUser, getUserLogout } from "../services/users/users";
@@ -8,7 +12,11 @@ import { getCurrentUser, getUserLogout } from "../services/users/users";
 const { Title } = Typography;
 
 const Header = () => {
-  const [isLoggedIn, seIsLoggedIn] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
+
+  const userInfoFunction = () => {
+    getUser();
+  };
 
   const onLogoutHandler = () => {
     getUserLogout()
@@ -17,35 +25,41 @@ const Header = () => {
       .finally();
   };
 
-  useEffect(() => {
+  const getUser = () => {
     getCurrentUser()
       .then((res) => {
         if (res?._id) {
-          seIsLoggedIn(true);
+          setUserInfo(res);
         } else {
-          seIsLoggedIn(false);
+          setUserInfo({});
         }
       })
       .catch(() => {})
       .finally(() => {});
+  };
+
+  useEffect(() => {
+    getUser();
   }, []);
 
   return (
     <nav>
       <Row justify="space-around">
-        <Col>
-          <Title level={5}>
-            <Link to="/">خانه</Link>
-          </Title>
-        </Col>{" "}
-        <Col>
-          <Title level={5}>
-            {isLoggedIn ? (
-              <>
-                <p> خوش اومدی کابر گرامی :)</p>
-                <Button onClick={onLogoutHandler}>خروج از حساب کاربری</Button>
-              </>
-            ) : (
+        <Title level={5}>
+          <Link to="/">خانه</Link>
+        </Title>
+
+        <Title level={5}>
+          {userInfo?._id ? (
+            <>
+              <span> خوش اومدی کابر گرامی :)</span>
+              <span> میزان اعتبار: {userInfo.credits}</span>
+              <Payment userInfoFunction={userInfoFunction} />
+              <Button onClick={onLogoutHandler}>خروج از حساب کاربری</Button>
+            </>
+          ) : (
+            <Button shape="round">
+              <GoogleOutlined />
               <a
                 href={
                   process.env.NODE_ENV === "production"
@@ -55,9 +69,9 @@ const Header = () => {
               >
                 ورود یا ثبت نام با گوگل
               </a>
-            )}
-          </Title>
-        </Col>
+            </Button>
+          )}
+        </Title>
       </Row>
     </nav>
   );

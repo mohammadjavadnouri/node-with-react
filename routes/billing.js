@@ -15,7 +15,7 @@ router.post("", requireLogin, async (req, res, next) => {
   const user = await req.user.save();
   //   res
   //     .status(200)
-  //     .json({ message: "تبریک میگم آدم تخمی، اعتبار حسابت بیشتر شد" });
+  //     .json({ message: "تبریک میگم تخمی جان، اعتبار حسابت بیشتر شد" });
   res.send(user);
 });
 

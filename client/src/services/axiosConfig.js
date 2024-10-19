@@ -1,4 +1,5 @@
 import axios from "axios";
+import { notification } from "antd";
 
 const api = axios.create({
   baseURL:
@@ -25,11 +26,18 @@ api.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
+    response?.data?.message &&
+      notification.open({
+        placement: "topLeft",
+        type: "success",
+        message: response?.data?.message,
+      });
     return response;
   },
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    console.log("error mj: ", error?.response?.data);
     return Promise.reject(error);
   }
 );

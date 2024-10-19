@@ -16,16 +16,19 @@ const { Header, Footer, Sider, Content } = Layout;
 
 const headerStyle = {
   textAlign: "center",
-  backgroundColor: "#e0ffcd",
+  backgroundColor: "#efefefef",
+  position: "sticky",
+  top: 0,
+  zIndex: 1,
 };
 
 const contentStyle = {
   textAlign: "center",
-  backgroundColor: "#fdffcd",
+  backgroundColor: "#dfdfdfdf",
 };
 const footerStyle = {
   textAlign: "center",
-  backgroundColor: "#ffebbb",
+  backgroundColor: "#cfcfcfcf",
 };
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -34,7 +37,7 @@ root.render(
     <React.StrictMode>
       <ConfigProvider direction="rtl">
         <BrowserRouter>
-          <Header style={headerStyle}>
+          <Header style={headerStyle} fixed>
             <HeaderCustom />
           </Header>
           <Content style={contentStyle}>

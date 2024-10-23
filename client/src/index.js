@@ -1,53 +1,33 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ConfigProvider, Layout } from "antd";
+import faIR from "antd/locale/fa_IR";
+import { ConfigProvider } from "antd";
 import reportWebVitals from "./reportWebVitals";
 
 import "./index.css";
 import Landing from "./components/Landing";
-import HeaderCustom from "./components/Header";
+import CustomHeader from "./components/CustomHeader";
 import Dashboard from "./components/Dashboard";
 
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 
-const { Header, Footer, Sider, Content } = Layout;
-
-const headerStyle = {
-  textAlign: "center",
-  backgroundColor: "#efefefef",
-  position: "sticky",
-  top: 0,
-  zIndex: 1,
-};
-
-const contentStyle = {
-  textAlign: "center",
-  backgroundColor: "#dfdfdfdf",
-};
-const footerStyle = {
-  textAlign: "center",
-  backgroundColor: "#cfcfcfcf",
-};
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-      <ConfigProvider direction="rtl">
+      <ConfigProvider direction="rtl" locale={faIR}>
         <BrowserRouter>
-          <Header style={headerStyle} fixed>
-            <HeaderCustom />
-          </Header>
-          <Content style={contentStyle}>
-            <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/surveys" element={<Dashboard />} />
-              {/* <RouterProvider router={router} /> */}
-            </Routes>
-          </Content>
-          <Footer style={footerStyle}>Footer</Footer>
+          <CustomHeader />
+
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/surveys" element={<Dashboard />} />
+            {/* <RouterProvider router={router} /> */}
+          </Routes>
+
+          {/* <Footer style={footerStyle}>Footer</Footer> */}
         </BrowserRouter>
       </ConfigProvider>
     </React.StrictMode>
